@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Jul 17 12:00:47 2019
-
 @author: MANOJ
 """
 
@@ -33,7 +32,7 @@ class Widget():
         self.label1 = tk.Label(self.root , text = 'ENTER TEXT IN THE TEXT BOX BELOW' , width = 37 , bg = '#fff9c4' , font = 'Times')
         self.label1.pack(pady = 25)
         
-        self.t = Text(self.root, width=40, height=10)
+        self.t = Text(self.root, width=80, height=20)
         self.t.pack(padx = 160 , pady = 10)
 
         self.button3 = tk.Button(
@@ -95,13 +94,13 @@ class Widget():
         self.t.delete(1.0 , END),
 
     def chooseMale(self):
-        engine.setProperty('voice', 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_DAVID_11.0') #View voices.py to get the voice ID
+        engine.setProperty('voice', 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_DAVID_11.0')
 
     def chooseFemale(self):
-        engine.setProperty('voice', 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_ZIRA_11.0')  #View voices.py to get the voice ID
+        engine.setProperty('voice', 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_ZIRA_11.0')
     def speak(self , text):
         if self.flag == 1:
-             engine.setProperty('rate' , 185) #Default rate : 200
+             engine.setProperty('rate' , 170) #Default rate : 200
              engine.say(text)
              engine.runAndWait()
 
@@ -121,13 +120,45 @@ class Widget():
         for para in doc.paragraphs:
             fullText.append(para.text)
 
-        text = ""
+        def print_and_speak(text):
+            print(text)
+            self.t.insert(INSERT , text)
+            engine.say(text)
+            engine.runAndWait()
+
+        for t in fullText:
+            engine = pyttsx3.init()
+            engine.setProperty('rate' , 190)
+            print_and_speak(t)
+        '''text = ""
         
         text = text.join(fullText)
-        text.split('.')
+        text1 = text.split('.')
 
+        finaltext = '.   '.join(text1)
+        
         self.flag = 1
-        self.t.insert(INSERT , text)
+        self.t.insert(INSERT , finaltext)
+'''
+        '''
+            fullText = []
+for para in doc.paragraphs:
+    fullText.append(para.text)
+
+
+           
+
+def print_and_speak(text):
+    print(text)
+    engine.say(text)
+    engine.runAndWait()
+    
+for t in fullText:
+    print_and_speak(t)
+
+
+
+        '''
            
     
     def chooseFile(self):
@@ -135,8 +166,7 @@ class Widget():
         tempfile = filedialog.askopenfilename(parent=self.root , initialdir=currdir, title='Please select a file')
         if len(tempfile) > 0:
             print("You chose %s" % tempfile)
-        fileLoc = tempfile
-        self.speakFromFile(fileLoc)
+        self.speakFromFile(tempfile)
         
         
         
